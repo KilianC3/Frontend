@@ -126,7 +126,12 @@ of authentication and automatic TLS.
 
 ## Stand-alone HTML Demo
 
-The `demo.html` file reproduces the entire dashboard in a single document using
-local copies of all required scripts. Open it in a browser to preview the UI
-before deploying it inside your container or exposing it through a Cloudflare
-tunnel.
+The `demo.html` file contains all scripts and styles needed to preview the
+dashboard layout without running any backend. To view it:
+
+1. Locate `demo.html` in the repository root.
+2. Open the file directly in any modern web browser (double click or use
+   `File > Open`).
+
+No additional server or configuration is required because the demo uses static
+placeholder data and bundles React, Tailwind CSS, and Recharts locally.
