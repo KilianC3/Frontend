@@ -92,3 +92,41 @@ npm start
 Deployments on platforms like Vercel or Netlify simply need the above
 environment variables defined. The application is entirely client side and can
 scale horizontally with ease.
+
+## Exposing the Frontend with Cloudflare Tunnel
+
+When running inside an LXC container you can make the dashboard publicly
+available using a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/). Install `cloudflared` in the
+container, authenticate and create a tunnel:
+
+```bash
+cloudflared tunnel login
+cloudflared tunnel create quantbroker
+```
+
+Create a configuration file named `cloudflared.yml`:
+
+```yaml
+tunnel: <TUNNEL_ID>
+credentials-file: /root/.cloudflared/<TUNNEL_ID>.json
+ingress:
+  - hostname: dash.example.com
+    service: http://localhost:3000
+  - service: http_status:404
+```
+
+Run the tunnel with:
+
+```bash
+cloudflared --config cloudflared.yml tunnel run
+```
+
+Restrict access to the hostname using Cloudflare Access for an additional layer
+of authentication and automatic TLS.
+
+## Stand-alone HTML Demo
+
+The `demo.html` file reproduces the entire dashboard in a single document using
+local copies of all required scripts. Open it in a browser to preview the UI
+before deploying it inside your container or exposing it through a Cloudflare
+tunnel.
