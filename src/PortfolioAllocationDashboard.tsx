@@ -20,16 +20,22 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Heatmap } from "recharts"; // hypothetical heatmap component
+import Heatmap from "@/components/Heatmap";
 import { exportToCSV } from "@/utils/export";
+import DatabaseViewer from "@/components/DatabaseViewer";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
+const API_BASE_PAPER =
+  process.env.NEXT_PUBLIC_API_BASE_PAPER ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  "";
+const API_BASE_LIVE = process.env.NEXT_PUBLIC_API_BASE_LIVE || API_BASE_PAPER;
 
 export default function PortfolioAllocationDashboard() {
   const [activeTab, setActiveTab] = useState<
-    "allocation" | "account" | "returns"
+    "allocation" | "account" | "returns" | "database"
   >("allocation");
   const [themeDark, setThemeDark] = useState(false);
+  const [liveTrading, setLiveTrading] = useState(false);
   // Date range for historical charts
   const [dateRange, setDateRange] = useState<[Date, Date]>([
     new Date(Date.now() - 30 * 24 * 3600 * 1000),
@@ -78,7 +84,8 @@ export default function PortfolioAllocationDashboard() {
   const fetchData = useCallback(
     async (endpoint: string, key: string, setter: any) => {
       try {
-        const url = `${API_BASE}${endpoint}`;
+        const apiBase = liveTrading ? API_BASE_LIVE : API_BASE_PAPER;
+        const url = `${apiBase}${endpoint}`;
         const res = await fetch(url);
         const data = await safeJson(res, endpoint);
         setter(data);
@@ -88,7 +95,7 @@ export default function PortfolioAllocationDashboard() {
         setErrors((prev) => ({ ...prev, [key]: e.message }));
       }
     },
-    [],
+    [liveTrading],
   );
 
   useEffect(() => {
@@ -144,6 +151,11 @@ export default function PortfolioAllocationDashboard() {
       <header className="p-6 flex justify-between items-center">
         <h1 className="text-3xl font-bold">QuantBroker Dashboard</h1>
         <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-1">
+            <span className="text-sm">Paper</span>
+            <Switch checked={liveTrading} onCheckedChange={setLiveTrading} />
+            <span className="text-sm">Live</span>
+          </div>
           <Switch checked={themeDark} onCheckedChange={setThemeDark} />
           <Button
             variant="outline"
@@ -171,14 +183,17 @@ export default function PortfolioAllocationDashboard() {
       <Card className="mx-6 rounded-2xl shadow-xl p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-md">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="bg-white dark:bg-gray-800 rounded-full p-1">
-            <TabsTrigger value="allocation" className="w-1/3">
+            <TabsTrigger value="allocation" className="w-1/4">
               Allocation
             </TabsTrigger>
-            <TabsTrigger value="account" className="w-1/3">
+            <TabsTrigger value="account" className="w-1/4">
               Account
             </TabsTrigger>
-            <TabsTrigger value="returns" className="w-1/3">
+            <TabsTrigger value="returns" className="w-1/4">
               Returns
+            </TabsTrigger>
+            <TabsTrigger value="database" className="w-1/4">
+              Database
             </TabsTrigger>
           </TabsList>
 
@@ -366,6 +381,12 @@ export default function PortfolioAllocationDashboard() {
                 </CardContent>
               </Card>
             ))}
+          </TabsContent>
+
+          <TabsContent value="database">
+            <DatabaseViewer
+              apiBase={liveTrading ? API_BASE_LIVE : API_BASE_PAPER}
+            />
           </TabsContent>
         </Tabs>
       </Card>

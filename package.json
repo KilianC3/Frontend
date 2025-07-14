@@ -1,0 +1,9 @@
+{
+  "name": "quantbroker-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "echo \"Linting not configured\"",
+    "test": "echo \"No tests present\""
+  }
+}

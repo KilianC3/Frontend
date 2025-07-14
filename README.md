@@ -13,9 +13,12 @@ Animated backgrounds and live number updates make the interface highly dynamic.
 
 ## Connecting to the Backend
 
-All data is fetched from a separate API. Set the environment variable
-`NEXT_PUBLIC_API_BASE` to the root URL of your backend instance. The recommended
-backend is [Portfolio_Allocation_System](https://github.com/KilianC3/Portfolio_Allocation_System).
+All data is fetched from a separate API. Set the environment variables
+`NEXT_PUBLIC_API_BASE_PAPER` and `NEXT_PUBLIC_API_BASE_LIVE` to the root URLs of
+your backend instances. The recommended backend is
+[Portfolio_Allocation_System](https://github.com/KilianC3/Portfolio_Allocation_System).
+If `NEXT_PUBLIC_API_BASE_LIVE` is omitted, the paper URL will be used for both
+modes.
 
 To run the backend locally:
 
@@ -28,14 +31,17 @@ pip install -r requirements.txt
 uvicorn api:app --reload
 ```
 
-Once running, configure this frontend to point at `http://localhost:8000`:
+Once running, configure this frontend to point at the paper and live API bases:
 
 ```bash
-export NEXT_PUBLIC_API_BASE=http://localhost:8000
+export NEXT_PUBLIC_API_BASE_PAPER=http://localhost:8000
+# Optional live URL
+export NEXT_PUBLIC_API_BASE_LIVE=https://api.example.com
 ```
 
 The dashboard will then request data from endpoints like `/api/assets`,
 `/api/efficient_frontier` and `/api/portfolio_returns`.
+Use the **Database** tab to browse backend tables and export their contents as CSV.
 
 ## Development
 
@@ -50,3 +56,39 @@ npx prettier --write src
 ```
 
 Lint and test commands are omitted here because no `package.json` is included.
+
+## Deploying the Frontend
+
+These source files are intended to be integrated into a React or Next.js
+application. The easiest way to get started is with `create-next-app` which
+sets up React, TypeScript and Tailwind CSS out of the box:
+
+```bash
+npx create-next-app@latest quantbroker-frontend --typescript --tailwind
+cd quantbroker-frontend
+
+# Replace the generated `src` directory with the contents of this repository
+rm -rf src
+cp -R /path/to/cloned/repo/src ./src
+
+# Configure the API endpoints
+cat <<EOF > .env.local
+NEXT_PUBLIC_API_BASE_PAPER=http://localhost:8000
+# Optional live trading API
+NEXT_PUBLIC_API_BASE_LIVE=https://api.example.com
+EOF
+
+npm run dev
+```
+
+This starts a local development server at `http://localhost:3000`. To create a
+production build and run it:
+
+```bash
+npm run build
+npm start
+```
+
+Deployments on platforms like Vercel or Netlify simply need the above
+environment variables defined. The application is entirely client side and can
+scale horizontally with ease.
