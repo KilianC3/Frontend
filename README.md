@@ -126,12 +126,14 @@ of authentication and automatic TLS.
 
 ## Stand-alone HTML Demo
 
-The `demo.html` file contains all scripts and styles needed to preview the
-dashboard layout without running any backend. To view it:
+The `demo.html` file contains everything needed to preview the dashboard layout
+without running any backend. All JavaScript dependencies are bundled into
+`demo.bundle.js` so it works completely offline. To view it:
 
 1. Locate `demo.html` in the repository root.
 2. Open the file directly in any modern web browser (double click or use
    `File > Open`).
 
 No additional server or configuration is required because the demo uses static
-placeholder data and bundles React, Tailwind CSS, and Recharts locally.
+placeholder data and bundles React, Tailwind CSS, and Recharts directly in
+`demo.bundle.js`.
