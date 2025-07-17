@@ -11,6 +11,14 @@ Animated backgrounds and live number updates make the interface highly dynamic.
   starfield overlay, loading spinner and animated numbers
 - `AGENTS.md` – commit guidelines for future contributors
 
+## Quick Start
+
+For a self-contained preview, simply open `demo.html` in your browser.
+The demo bundles React and Tailwind so no build step is required. It shows
+sample data in each tab including the **Database** and **Logs** views. Use the
+Export button in the Database tab to download tables as CSV files, and watch the
+Logs tab refresh automatically every few seconds.
+
 ## Connecting to the Backend
 
 All data is fetched from a separate API. Set the environment variables
@@ -149,7 +157,8 @@ of authentication and automatic TLS.
 
 The `demo.html` file contains everything needed to preview the dashboard layout
 without running any backend. All JavaScript dependencies are embedded directly
-in the HTML so it works completely offline. To view it:
+in the HTML so it works completely offline. The demo includes database and log
+views with sample data that refresh automatically. To view it:
 
 1. Locate `demo.html` in the repository root.
 2. Open the file directly in any modern web browser (double click or use

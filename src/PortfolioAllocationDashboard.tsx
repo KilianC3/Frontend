@@ -184,19 +184,19 @@ export default function PortfolioAllocationDashboard() {
       <Card className="mx-6 rounded-2xl shadow-xl p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-md">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="bg-white dark:bg-gray-800 rounded-full p-1">
-            <TabsTrigger value="allocation" className="w-1/5">
+            <TabsTrigger value="allocation" className="flex-1">
               Allocation
             </TabsTrigger>
-            <TabsTrigger value="account" className="w-1/5">
+            <TabsTrigger value="account" className="flex-1">
               Account
             </TabsTrigger>
-            <TabsTrigger value="returns" className="w-1/5">
+            <TabsTrigger value="returns" className="flex-1">
               Returns
             </TabsTrigger>
-            <TabsTrigger value="database" className="w-1/5">
+            <TabsTrigger value="database" className="flex-1">
               Database
             </TabsTrigger>
-            <TabsTrigger value="logs" className="w-1/5">
+            <TabsTrigger value="logs" className="flex-1">
               Logs
             </TabsTrigger>
           </TabsList>
