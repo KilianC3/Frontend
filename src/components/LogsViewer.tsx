@@ -24,6 +24,8 @@ export default function LogsViewer({ apiBase }: Props) {
 
   useEffect(() => {
     fetchLogs();
+    const id = setInterval(fetchLogs, 5000);
+    return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiBase]);
 

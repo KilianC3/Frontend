@@ -809,6 +809,45 @@
           ),
         );
       }
+      function LogsViewer() {
+        const [logs, setLogs] = useState(
+          [
+            "2024-01-01 12:00:00 INFO System started",
+            "2024-01-01 12:01:00 INFO Waiting for events",
+          ].join("\n"),
+        );
+        const refresh = () => {
+          const ts = new Date().toISOString();
+          setLogs((l) => `${l}\n${ts} INFO No new logs`);
+        };
+        useEffect(() => {
+          const id = setInterval(refresh, 5000);
+          return () => clearInterval(id);
+        }, []);
+        return /*#__PURE__*/ React.createElement(
+          "div",
+          {
+            className: "space-y-4",
+          },
+          /*#__PURE__*/ React.createElement(
+            Button,
+            {
+              variant: "outline",
+              size: "sm",
+              onClick: refresh,
+            },
+            "Refresh",
+          ),
+          /*#__PURE__*/ React.createElement(
+            "pre",
+            {
+              className:
+                "overflow-auto max-h-96 bg-black text-green-200 p-2 text-xs rounded-md",
+            },
+            logs,
+          ),
+        );
+      }
       function PortfolioAllocationDashboard() {
         const [activeTab, setActiveTab] = useState("allocation");
         const [themeDark, setThemeDark] = useState(false);
@@ -1004,7 +1043,7 @@
                   TabsTrigger,
                   {
                     value: "allocation",
-                    className: "w-1/4",
+                    className: "flex-1",
                   },
                   "Allocation",
                 ),
@@ -1012,7 +1051,7 @@
                   TabsTrigger,
                   {
                     value: "account",
-                    className: "w-1/4",
+                    className: "flex-1",
                   },
                   "Account",
                 ),
@@ -1020,7 +1059,7 @@
                   TabsTrigger,
                   {
                     value: "returns",
-                    className: "w-1/4",
+                    className: "flex-1",
                   },
                   "Returns",
                 ),
@@ -1028,9 +1067,17 @@
                   TabsTrigger,
                   {
                     value: "database",
-                    className: "w-1/4",
+                    className: "flex-1",
                   },
                   "Database",
+                ),
+                /*#__PURE__*/ React.createElement(
+                  TabsTrigger,
+                  {
+                    value: "logs",
+                    className: "flex-1",
+                  },
+                  "Logs",
                 ),
               ),
               /*#__PURE__*/ React.createElement(
@@ -1379,6 +1426,13 @@
                   value: "database",
                 },
                 /*#__PURE__*/ React.createElement(DatabaseViewer, null),
+              ),
+              /*#__PURE__*/ React.createElement(
+                TabsContent,
+                {
+                  value: "logs",
+                },
+                /*#__PURE__*/ React.createElement(LogsViewer, null),
               ),
             ),
           ),
