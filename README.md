@@ -19,8 +19,6 @@ your backend instances. The recommended backend is
 [Portfolio_Allocation_System](https://github.com/KilianC3/Portfolio_Allocation_System).
 If `NEXT_PUBLIC_API_BASE_LIVE` is omitted, the paper URL will be used for both
 modes.
-To access FRED economic data, set `FRED_API_KEY` in `config.yaml`. This value is
-exported for the application via `src/utils/config.ts`.
 
 To run the backend locally:
 
