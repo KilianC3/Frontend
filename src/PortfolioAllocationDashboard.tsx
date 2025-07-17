@@ -23,6 +23,7 @@ import {
 import Heatmap from "@/components/Heatmap";
 import { exportToCSV } from "@/utils/export";
 import DatabaseViewer from "@/components/DatabaseViewer";
+import LogsViewer from "@/components/LogsViewer";
 
 const API_BASE_PAPER =
   process.env.NEXT_PUBLIC_API_BASE_PAPER ||
@@ -32,7 +33,7 @@ const API_BASE_LIVE = process.env.NEXT_PUBLIC_API_BASE_LIVE || API_BASE_PAPER;
 
 export default function PortfolioAllocationDashboard() {
   const [activeTab, setActiveTab] = useState<
-    "allocation" | "account" | "returns" | "database"
+    "allocation" | "account" | "returns" | "database" | "logs"
   >("allocation");
   const [themeDark, setThemeDark] = useState(false);
   const [liveTrading, setLiveTrading] = useState(false);
@@ -183,17 +184,20 @@ export default function PortfolioAllocationDashboard() {
       <Card className="mx-6 rounded-2xl shadow-xl p-4 bg-white/60 dark:bg-gray-800/60 backdrop-blur-md">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="bg-white dark:bg-gray-800 rounded-full p-1">
-            <TabsTrigger value="allocation" className="w-1/4">
+            <TabsTrigger value="allocation" className="w-1/5">
               Allocation
             </TabsTrigger>
-            <TabsTrigger value="account" className="w-1/4">
+            <TabsTrigger value="account" className="w-1/5">
               Account
             </TabsTrigger>
-            <TabsTrigger value="returns" className="w-1/4">
+            <TabsTrigger value="returns" className="w-1/5">
               Returns
             </TabsTrigger>
-            <TabsTrigger value="database" className="w-1/4">
+            <TabsTrigger value="database" className="w-1/5">
               Database
+            </TabsTrigger>
+            <TabsTrigger value="logs" className="w-1/5">
+              Logs
             </TabsTrigger>
           </TabsList>
 
@@ -385,6 +389,11 @@ export default function PortfolioAllocationDashboard() {
 
           <TabsContent value="database">
             <DatabaseViewer
+              apiBase={liveTrading ? API_BASE_LIVE : API_BASE_PAPER}
+            />
+          </TabsContent>
+          <TabsContent value="logs">
+            <LogsViewer
               apiBase={liveTrading ? API_BASE_LIVE : API_BASE_PAPER}
             />
           </TabsContent>
