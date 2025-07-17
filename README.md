@@ -42,6 +42,27 @@ export NEXT_PUBLIC_API_BASE_LIVE=https://api.example.com
 The dashboard will then request data from endpoints like `/api/assets`,
 `/api/efficient_frontier` and `/api/portfolio_returns`.
 Use the **Database** tab to browse backend tables and export their contents as CSV.
+Check the **Logs** tab to inspect backend log output and diagnose issues.
+
+### Backend API
+
+The following endpoints are required by the dashboard and are implemented in
+the recommended Python backend:
+
+- `GET /api/assets` – list of tradable assets
+- `GET /api/efficient_frontier` – efficient frontier coordinates
+- `GET /api/optimize` – optimized allocation weights
+- `GET /api/account_metrics` – account summary statistics
+- `GET /api/portfolio_returns` – historical returns by strategy
+- `GET /api/correlations` – correlation matrix for the selected assets
+- `GET /api/var` – value at risk time series
+- `GET /api/tables` – list of database tables
+- `GET /api/table/<name>` – rows from a specific table
+- `GET /api/logs` – latest application logs
+
+The **Database** tab uses `/api/tables` and `/api/table/<name>` to display and
+export the database contents. The **Logs** tab fetches data from `/api/logs`.
+Ensure these routes are available when running the backend.
 
 ## Development
 
