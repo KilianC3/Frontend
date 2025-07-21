@@ -28,7 +28,7 @@ import LogsViewer from "@/components/LogsViewer";
 const API_BASE_PAPER =
   process.env.NEXT_PUBLIC_API_BASE_PAPER ||
   process.env.NEXT_PUBLIC_API_BASE ||
-  "";
+  "http://localhost:8001";
 const API_BASE_LIVE = process.env.NEXT_PUBLIC_API_BASE_LIVE || API_BASE_PAPER;
 
 export default function PortfolioAllocationDashboard() {
@@ -45,7 +45,7 @@ export default function PortfolioAllocationDashboard() {
 
   // Core data
   const [assets, setAssets] = useState<string[]>([]);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("http://localhost:8001");
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
   const [allocations, setAllocations] = useState<
     { asset: string; weight: number }[]
@@ -76,7 +76,7 @@ export default function PortfolioAllocationDashboard() {
   const safeJson = async (res: Response, endpoint: string) => {
     if (res.status === 404) throw new Error(`Endpoint not found: ${endpoint}`);
     if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
-    const ct = res.headers.get("content-type") || "";
+    const ct = res.headers.get("content-type") || "http://localhost:8001";
     if (!ct.includes("application/json"))
       throw new Error(`Unexpected content-type: ${ct}`);
     return res.json();

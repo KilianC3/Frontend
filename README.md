@@ -36,13 +36,13 @@ git clone https://github.com/KilianC3/Portfolio_Allocation_System.git
 cd Portfolio_Allocation_System
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-uvicorn api:app --reload
+uvicorn api:app --reload --port 8001
 ```
 
 Once running, configure this frontend to point at the paper and live API bases:
 
 ```bash
-export NEXT_PUBLIC_API_BASE_PAPER=http://localhost:8000
+export NEXT_PUBLIC_API_BASE_PAPER=http://localhost:8001
 # Optional live URL
 export NEXT_PUBLIC_API_BASE_LIVE=https://api.example.com
 ```
@@ -67,6 +67,37 @@ the recommended Python backend:
 - `GET /api/tables` – list of database tables
 - `GET /api/table/<name>` – rows from a specific table
 - `GET /api/logs` – latest application logs
+
+### Database Tables
+
+The backend database stores information across these tables which are accessible via the Database tab:
+
+- politician_trades
+- lobbying
+- wiki_views
+- dc_insider_scores
+- gov_contracts
+- app_reviews
+- google_trends
+- reddit_mentions
+- news_headlines
+- analyst_ratings
+- insider_buying
+- sp500_index
+- universe – full list of tradable symbols with index_name
+- portfolios – stored weights for each strategy
+- trades – executed orders
+- weight_history – timestamped portfolio weights
+- metrics – daily performance statistics
+- ticker_scores – monthly composite fundamentals and momentum ranks
+- account_metrics_paper – equity history for the paper account
+- account_metrics_live – equity history for the live account
+- account_metrics – point-in-time equity snapshots
+- schema_version – schema migration tracking
+- cache – key/value store for HTTP responses
+- alloc_log – allocation diagnostics
+- system_logs – structured log records for the front end
+- top_scores – top 20 tickers by composite score each month
 
 The **Database** tab uses `/api/tables` and `/api/table/<name>` to display and
 export the database contents. The **Logs** tab fetches data from `/api/logs`.
@@ -102,7 +133,7 @@ cp -R /path/to/cloned/repo/src ./src
 
 # Configure the API endpoints
 cat <<EOF > .env.local
-NEXT_PUBLIC_API_BASE_PAPER=http://localhost:8000
+NEXT_PUBLIC_API_BASE_PAPER=http://localhost:8001
 # Optional live trading API
 NEXT_PUBLIC_API_BASE_LIVE=https://api.example.com
 EOF
